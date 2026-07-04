@@ -368,13 +368,13 @@
                 '<span class="recurso-nombre">' + escapeHtml(r.nombre) + '</span>' +
                 (r.desc ? '<span class="recurso-desc">' + escapeHtml(r.desc) + '</span>' : '') +
               '</span>' +
-              '<span class="recurso-action">' + icon("download", "ico-sm") + 'Abrir</span>' +
+              '<span class="recurso-action">Abrir →</span>' +
             '</a>';
           }).join("") +
         '</div>'
       : '') +
-      // Recuadro de últimas novedades (se completa async)
-      '<div id="home-novedades" class="home-news"></div>' +
+      // Recuadro de últimas novedades (se completa async — nace sin clase para evitar flash)
+      '<div id="home-novedades"></div>' +
       '<div class="stats-grid">' + statsHtml + '</div>' +
       // Equipo capacitador (título del mismo tamaño que el subtítulo de arriba)
       '<div class="team-section">' +
@@ -429,6 +429,7 @@
       .then(function (res) {
         const items = (res && res.items) ? sortByFechaDesc(res.items).slice(0, 3) : [];
         if (!items.length) { box.remove(); return; }
+        box.className = "home-news";
         box.innerHTML =
           '<div class="home-news-head">' + icon("bell") + 'Últimas novedades</div>' +
           '<ul>' + items.map(function (n) {

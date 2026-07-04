@@ -318,8 +318,8 @@ button { font-family: var(--font-body); cursor: pointer; }
 .recurso-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .recurso-nombre { font-weight: 600; font-size: 0.95rem; color: var(--text); }
 .recurso-desc { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.recurso-action { display: flex; align-items: center; gap: 5px; font-size: 0.82rem; font-weight: 600; color: var(--blue); flex-shrink: 0; white-space: nowrap; }
-.recurso-action .ico-sm { width: 14px; height: 14px; }
+.recurso-action { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); flex-shrink: 0; white-space: nowrap; letter-spacing: 0.01em; transition: color 0.18s; }
+.recurso-card:hover .recurso-action { color: var(--blue); }
 
 .stats-grid {
   display: grid;
