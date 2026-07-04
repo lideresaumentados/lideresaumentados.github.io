@@ -35,7 +35,7 @@ const SITE_CONFIG = {
     {
       nombre: "Presentación del programa",
       desc: "Documento de presentación del programa Líderes Aumentados.",
-      url: "https://drive.google.com/file/d/1i2_eLe-C_zrwUT5q7fy6Kzlz5aEmkQpz/view?usp=sharing",
+      url: "https://drive.google.com/uc?export=download&id=1i2_eLe-C_zrwUT5q7fy6Kzlz5aEmkQpz",
       icono: "file-text"
     }
   ],
