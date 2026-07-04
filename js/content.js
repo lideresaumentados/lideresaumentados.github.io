@@ -27,6 +27,19 @@ const SITE_CONFIG = {
   // Texto de bienvenida que aparece en la sección Inicio.
   welcome: "Bienvenido/a a la plataforma del programa. Acá vas a encontrar el cronograma de encuentros, el material y los videos de cada módulo, las novedades y un espacio para dejar tus consultas. ¡Que lo aproveches!",
 
+  // Archivos descargables que aparecen en Inicio (presentaciones, brochures, etc.).
+  // - url: link directo de Google Drive en formato descarga (o cualquier URL pública).
+  // Para obtener el link de Drive: abrís el archivo → Compartir → "Cualquiera con el link"
+  // y luego reemplazás "/view" por "/preview" en la URL (o usás el formato abajo).
+  recursos: [
+    {
+      nombre: "Presentación del programa",
+      desc: "Documento de presentación del programa Líderes Aumentados.",
+      url: "https://drive.google.com/file/d/1i2_eLe-C_zrwUT5q7fy6Kzlz5aEmkQpz/view?usp=sharing",
+      icono: "file-text"
+    }
+  ],
+
   // Logos que rotan en la franja blanca de la portada de Inicio (se ven 3 a la vez).
   // - logo: ruta a la imagen dentro de /assets (ej: "assets/logo-gobierno.png").
   //         Si el archivo todavía no existe, se muestra el nombre como texto en su lugar.

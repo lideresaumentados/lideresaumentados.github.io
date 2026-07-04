@@ -358,6 +358,21 @@
       '</div>' +
       saludo +
       '<p class="welcome-text">' + escapeHtml(SITE_CONFIG.welcome || SITE_CONFIG.programTagline) + '</p>' +
+      // Archivos descargables (presentación, brochure, etc.)
+      ((SITE_CONFIG.recursos && SITE_CONFIG.recursos.length) ?
+        '<div class="recursos-wrap">' +
+          SITE_CONFIG.recursos.map(function (r) {
+            return '<a class="recurso-card" href="' + escapeAttr(r.url) + '" target="_blank" rel="noopener">' +
+              '<span class="recurso-ico">' + icon(r.icono || "file-text") + '</span>' +
+              '<span class="recurso-info">' +
+                '<span class="recurso-nombre">' + escapeHtml(r.nombre) + '</span>' +
+                (r.desc ? '<span class="recurso-desc">' + escapeHtml(r.desc) + '</span>' : '') +
+              '</span>' +
+              '<span class="recurso-action">' + icon("download", "ico-sm") + 'Abrir</span>' +
+            '</a>';
+          }).join("") +
+        '</div>'
+      : '') +
       // Recuadro de últimas novedades (se completa async)
       '<div id="home-novedades" class="home-news"></div>' +
       '<div class="stats-grid">' + statsHtml + '</div>' +
@@ -953,7 +968,7 @@
         const esAdmin = session && session.rol === "admin";
         cont.innerHTML = items.map(function (c) {
           const del = esAdmin ? '<button class="row-del" data-row="' + escapeAttr(c.row) + '" data-val="' + escapeAttr(c.titulo) + '" title="Borrar">' + icon("trash", "ico-sm") + '</button>' : '';
-          const hora = String(c.hora || "").trim();
+          const hora = formatHora(c.hora);
           const detalle = String(c.detalle || "").trim();
           return '<div class="crono-card">' +
             '<div class="crono-date"><span class="cd-day">' + escapeHtml(formatFecha(c.fecha)) + '</span>' + (hora ? '<span class="cd-time">' + escapeHtml(hora) + ' hs</span>' : '') + '</div>' +
@@ -1007,6 +1022,28 @@
     const d = parseFecha(f);
     if (!d) return String(f || "");
     return d.toLocaleDateString("es-AR", { day: "2-digit", month: "long", year: "numeric" });
+  }
+
+  // Normaliza la hora que llega de Google Sheets, que puede venir como:
+  // - "22:16" o "22:16:00"  → directo
+  // - "1899-12-30T22:16:48.000Z" → número serial de Excel, extraemos HH:MM de la parte T
+  // - número decimal (0.927...) → fracción de día, convertimos a HH:MM
+  function formatHora(h) {
+    if (!h && h !== 0) return "";
+    const s = String(h).trim();
+    // Formato ISO completo tipo "1899-12-30T22:16:48.000Z"
+    const isoMatch = s.match(/T(\d{2}):(\d{2})/);
+    if (isoMatch) return isoMatch[1] + ":" + isoMatch[2];
+    // Formato "HH:MM" o "HH:MM:SS"
+    const hmMatch = s.match(/^(\d{1,2}):(\d{2})/);
+    if (hmMatch) return hmMatch[1].padStart(2,"0") + ":" + hmMatch[2];
+    // Número decimal (fracción de día)
+    const num = parseFloat(s);
+    if (!isNaN(num) && num >= 0 && num < 1) {
+      const totalMin = Math.round(num * 1440);
+      return String(Math.floor(totalMin / 60)).padStart(2,"0") + ":" + String(totalMin % 60).padStart(2,"0");
+    }
+    return s;
   }
 
   /* ------------------------- Utilidades ------------------------- */

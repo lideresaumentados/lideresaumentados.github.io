@@ -304,6 +304,23 @@ button { font-family: var(--font-body); cursor: pointer; }
   text-align: justify; text-justify: inter-word;
 }
 
+/* Archivos descargables en Inicio */
+.recursos-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.recurso-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 18px; text-decoration: none; color: var(--text);
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.recurso-card:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(1,89,176,0.10); }
+.recurso-ico { color: var(--blue); flex-shrink: 0; }
+.recurso-ico .ico { width: 22px; height: 22px; }
+.recurso-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.recurso-nombre { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+.recurso-desc { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recurso-action { display: flex; align-items: center; gap: 5px; font-size: 0.82rem; font-weight: 600; color: var(--blue); flex-shrink: 0; white-space: nowrap; }
+.recurso-action .ico-sm { width: 14px; height: 14px; }
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
