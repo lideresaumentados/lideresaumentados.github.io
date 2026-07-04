@@ -95,6 +95,7 @@ const MODULES = [
     id: 1,
     title: "Nuevo liderazgo público en la era de la IA",
     description: "Qué cambia en el rol de conducción cuando la Inteligencia Artificial entra a la gestión pública, y qué se espera hoy de un líder o líder a en Santa Cruz.",
+    image: "assets/mod1.jpg",
     videoId: "",
     docs: []
   },
@@ -102,6 +103,7 @@ const MODULES = [
     id: 2,
     title: "IA centrada en procesos vs. IA centrada en personas",
     description: "Dos caminos posibles para usar IA en la gestión: eficiencia de procesos por un lado, foco en las personas por el otro. Cómo integrar ambos con criterio humano.",
+    image: "assets/mod2.jpg",
     videoId: "",
     docs: []
   },
@@ -109,6 +111,7 @@ const MODULES = [
     id: 3,
     title: "Toma de decisiones ágiles",
     description: "Marcos y herramientas para decidir con más velocidad y menos desgaste, incorporando IA como apoyo — nunca como reemplazo del criterio.",
+    image: "assets/mod3.jpg",
     videoId: "",
     docs: []
   },
@@ -116,6 +119,7 @@ const MODULES = [
     id: 4,
     title: "Productividad pública aumentada",
     description: "Reuniones, informes y seguimiento de tareas: cómo aplicar IA para ganar tiempo real en el día a día de la gestión.",
+    image: "assets/mod4.jpg",
     videoId: "",
     docs: []
   },
@@ -123,6 +127,7 @@ const MODULES = [
     id: 5,
     title: "Conducción de equipos en contextos de cambio",
     description: "Comunicación, feedback y conversaciones difíciles para sostener equipos motivados durante procesos de transformación.",
+    image: "assets/mod5.jpg",
     videoId: "",
     docs: []
   },
@@ -130,6 +135,7 @@ const MODULES = [
     id: 6,
     title: "Rediseño de procesos con criterio humano",
     description: "Cómo mapear y mejorar procesos de gestión pública sin perder de vista a las personas que los sostienen y a quienes sirven.",
+    image: "assets/mod6.jpg",
     videoId: "",
     docs: []
   },
@@ -137,6 +143,7 @@ const MODULES = [
     id: 7,
     title: "Confianza, reputación y responsabilidad institucional",
     description: "Uso responsable de IA en el sector público: trazabilidad, ética, datos sensibles y supervisión humana.",
+    image: "assets/mod7.jpg",
     videoId: "",
     docs: []
   },
@@ -144,6 +151,7 @@ const MODULES = [
     id: 8,
     title: "Proyecto aplicado de mejora",
     description: "Cada participante presenta su proyecto de mejora, diseñado para implementar en su área dentro de los 30 días posteriores al cierre del programa.",
+    image: "assets/mod8.jpg",
     videoId: "",
     docs: []
   }

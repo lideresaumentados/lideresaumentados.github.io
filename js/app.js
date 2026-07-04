@@ -450,10 +450,15 @@
   /* ------------------------- Vista: Módulos ------------------------- */
   function renderModulos() {
     let modulesHtml = MODULES.map(function (m) {
+      const imgHtml = m.image
+        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + ')"><span class="module-num">' + m.id + '</span></div>'
+        : '<div class="module-card-img module-card-img--empty"><span class="module-num">' + m.id + '</span></div>';
       return '<button class="module-card" data-view="modulo-' + m.id + '">' +
-        '<div class="module-num">' + m.id + '</div>' +
-        '<h3>' + escapeHtml(m.title) + '</h3>' +
-        '<p>' + escapeHtml(m.description) + '</p>' +
+        imgHtml +
+        '<div class="module-card-body">' +
+          '<h3>' + escapeHtml(m.title) + '</h3>' +
+          '<p>' + escapeHtml(m.description) + '</p>' +
+        '</div>' +
         '</button>';
     }).join("");
 
@@ -491,11 +496,14 @@
       docsHtml = '<div class="empty-note">Todavía no hay documentos cargados para este módulo.</div>';
     }
 
+    const bannerHtml = mod.image
+      ? '<div class="module-banner" style="background-image:url(' + escapeAttr(mod.image) + ')"><div class="module-banner-overlay"><div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div><h2>' + escapeHtml(mod.title) + '</h2></div></div>'
+      : '<div class="module-header"><div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div><h2>' + escapeHtml(mod.title) + '</h2></div>';
+
     mainContent.innerHTML =
       '<button class="breadcrumb-back" data-view="inicio">← Volver al inicio</button>' +
-      '<div class="module-header">' +
-        '<div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div>' +
-        '<h2>' + escapeHtml(mod.title) + '</h2>' +
+      bannerHtml +
+      '<div class="module-header" style="padding-top:16px;">' +
         '<p class="desc">' + escapeHtml(mod.description) + '</p>' +
       '</div>' +
       '<div class="video-wrap">' + videoHtml + '</div>' +
