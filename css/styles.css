@@ -305,7 +305,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 
 /* Archivos descargables en Inicio */
-.recursos-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.recursos-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; align-items: flex-start; }
 .recurso-card {
   display: flex; align-items: center; gap: 14px;
   background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
