@@ -34,7 +34,7 @@ const SITE_CONFIG = {
   recursos: [
     {
       nombre: "Presentación del programa",
-      desc: "Documento de presentación del programa Líderes Aumentados.",
+      desc: "PDF · Julio 2026",
       url: "https://drive.google.com/uc?export=download&id=1i2_eLe-C_zrwUT5q7fy6Kzlz5aEmkQpz",
       icono: "file-text"
     }
