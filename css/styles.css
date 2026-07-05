@@ -380,6 +380,42 @@ button { font-family: var(--font-body); cursor: pointer; }
 .module-card h3 { font-size: 1rem; margin-bottom: 6px; }
 .module-card p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
 
+/* Módulo bloqueado */
+.module-card--locked { opacity: 0.45; filter: grayscale(0.5); cursor: not-allowed; pointer-events: none; }
+.module-lock-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(0,0,0,0.55); color: #fff;
+  border-radius: 50%; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.module-lock-badge .ico-sm { width: 14px; height: 14px; }
+
+/* Panel de locks en admin */
+.module-locks-grid { display: flex; flex-direction: column; gap: 8px; max-width: 720px; }
+.module-lock-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 16px;
+}
+.module-lock-num {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: var(--sky-pale); color: var(--blue);
+  font-weight: 700; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.module-lock-title { flex: 1; font-size: 0.9rem; color: var(--text); }
+.module-lock-btn {
+  display: flex; align-items: center; gap: 5px;
+  border: 1.5px solid; border-radius: 20px; padding: 4px 12px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer; background: none;
+  transition: background 0.15s, color 0.15s;
+}
+.module-lock-btn.unlocked { border-color: var(--blue); color: var(--blue); }
+.module-lock-btn.unlocked:hover { background: var(--blue); color: #fff; }
+.module-lock-btn.locked { border-color: #999; color: #666; }
+.module-lock-btn.locked:hover { border-color: var(--blue); color: var(--blue); }
+.module-lock-btn .ico-sm { width: 13px; height: 13px; }
+
 /* ---------- Vista Módulo ---------- */
 .breadcrumb-back {
   background: none; border: none; color: var(--blue); font-weight: 600;

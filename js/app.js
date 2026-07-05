@@ -23,6 +23,7 @@
   let session = null; // { email, nombre, rol, token }
   let pendingReply = null; // { moduleId, text } — respuesta pre-cargada al ir a un módulo
   let heroCarouselTimer = null; // interval del carrusel de logos de la portada
+  let moduleLocks = []; // IDs de módulos bloqueados (cargados desde el servidor)
 
   /* ------------------------- Íconos (línea, monocromáticos) ------------------------- */
   // Set de íconos SVG estilo "feather" (heredan el color del texto con currentColor).
@@ -37,7 +38,9 @@
     trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
     play: '<circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>',
     file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>',
-    logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>'
+    logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+    lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    unlock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>'
   };
   function icon(name, cls) {
     return '<svg class="ico' + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
@@ -173,7 +176,19 @@
     gateScreen.style.display = "none";
     app.classList.add("unlocked");
     renderNav();
-    navigateTo("inicio");
+    loadModuleLocks(function() { navigateTo("inicio"); });
+  }
+
+  function loadModuleLocks(cb) {
+    if (!apiConfigured()) { if (cb) cb(); return; }
+    apiPost({ action: "getModuleLocks" })
+      .then(function(res) { if (res && res.ok) moduleLocks = res.locked || []; })
+      .catch(function() {})
+      .finally(function() { if (cb) cb(); });
+  }
+
+  function isModuleLocked(id) {
+    return moduleLocks.indexOf(id) !== -1;
   }
 
   function logout() {
@@ -450,10 +465,12 @@
   /* ------------------------- Vista: Módulos ------------------------- */
   function renderModulos() {
     let modulesHtml = MODULES.map(function (m) {
+      const esAdmin = session && session.rol === "admin";
+      const locked = isModuleLocked(m.id) && !esAdmin;
       const imgHtml = m.image
-        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + ')"><span class="module-num">' + m.id + '</span></div>'
-        : '<div class="module-card-img module-card-img--empty"><span class="module-num">' + m.id + '</span></div>';
-      return '<button class="module-card" data-view="modulo-' + m.id + '">' +
+        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + ')"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>'
+        : '<div class="module-card-img module-card-img--empty"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>';
+      return '<button class="module-card' + (locked ? ' module-card--locked' : '') + '"' + (locked ? '' : ' data-view="modulo-' + m.id + '"') + '>' +
         imgHtml +
         '<div class="module-card-body">' +
           '<h3>' + escapeHtml(m.title) + '</h3>' +
@@ -632,7 +649,21 @@
         '<div class="admin-field"><label>&nbsp;</label><button type="submit" class="btn-primary" style="width:auto;">Agregar</button></div>' +
       '</form>' +
       '<div class="admin-msg" id="admin-msg"></div>' +
-      '<div class="users-table-wrap"><div id="users-table"><p style="color:var(--text-muted);">Cargando alumnos…</p></div></div>';
+      '<div class="users-table-wrap"><div id="users-table"><p style="color:var(--text-muted);">Cargando alumnos…</p></div></div>' +
+      '<h3 class="section-title-lg" style="margin-top:40px; margin-bottom:8px;">Acceso a módulos</h3>' +
+      '<p style="color:var(--text-muted); max-width:720px; margin-bottom:20px;">Controlá qué módulos pueden ver los alumnos. Los módulos bloqueados se muestran con candado y no se pueden abrir.</p>' +
+      '<div class="module-locks-grid" id="module-locks-grid">' +
+        MODULES.map(function(m) {
+          const locked = isModuleLocked(m.id);
+          return '<div class="module-lock-row" id="mlr-' + m.id + '">' +
+            '<span class="module-lock-num">' + m.id + '</span>' +
+            '<span class="module-lock-title">' + escapeHtml(m.title) + '</span>' +
+            '<button class="module-lock-btn ' + (locked ? 'locked' : 'unlocked') + '" data-mod="' + m.id + '" data-locked="' + (locked ? '1' : '0') + '">' +
+              (locked ? icon('lock', 'ico-sm') + ' Bloqueado' : icon('unlock', 'ico-sm') + ' Habilitado') +
+            '</button>' +
+          '</div>';
+        }).join('') +
+      '</div>';
 
     document.getElementById("au-gen").onclick = function () {
       document.getElementById("au-clave").value = genClave();
@@ -640,6 +671,27 @@
     document.getElementById("add-user-form").addEventListener("submit", onAddUser);
 
     loadUsers();
+
+    document.getElementById("module-locks-grid").addEventListener("click", function(e) {
+      const btn = e.target.closest(".module-lock-btn");
+      if (!btn) return;
+      const moduleId = parseInt(btn.dataset.mod, 10);
+      const nowLocked = btn.dataset.locked === "1";
+      const newLocked = !nowLocked;
+      btn.disabled = true;
+      apiPost({ action: "setModuleLock", adminEmail: session.email, token: session.token, moduleId: moduleId, locked: newLocked })
+        .then(function(res) {
+          if (res && res.ok) {
+            moduleLocks = res.locked || [];
+            const locked = isModuleLocked(moduleId);
+            btn.className = "module-lock-btn " + (locked ? "locked" : "unlocked");
+            btn.dataset.locked = locked ? "1" : "0";
+            btn.innerHTML = locked ? icon("lock", "ico-sm") + " Bloqueado" : icon("unlock", "ico-sm") + " Habilitado";
+          }
+        })
+        .catch(function() {})
+        .finally(function() { btn.disabled = false; });
+    });
   }
 
   function adminMsg(text, kind) {

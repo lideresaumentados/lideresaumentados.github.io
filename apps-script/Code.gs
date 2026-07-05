@@ -114,6 +114,8 @@ function doPost(e) {
     case "getCronograma":   return json({ ok: true, items: readTable(SHEET_CRONOGRAMA, CRONO_FIELDS) });
     case "addCronograma":   return addCronograma(body);
     case "deleteCronograma":return deleteRowGeneric(SHEET_CRONOGRAMA, CRONO_FIELDS, body);
+    case "getModuleLocks":  return getModuleLocks();
+    case "setModuleLock":   return setModuleLock(body);
     default:            return json({ ok: false, error: "Acción desconocida." });
   }
 }
@@ -435,6 +437,28 @@ function deleteRowGeneric(sheetName, fieldMap, body) {
     }
   }
   return json({ ok: false, error: "No se encontró (quizás ya fue borrado). Actualizá la página." });
+}
+
+/* ============================ Bloqueo de módulos ============================ */
+
+function getModuleLocks() {
+  var props = PropertiesService.getScriptProperties();
+  var locked = JSON.parse(props.getProperty("lockedModules") || "[]");
+  return json({ ok: true, locked: locked });
+}
+
+function setModuleLock(body) {
+  if (!verifyAdmin(body.adminEmail, body.token)) return json({ ok: false, error: "No autorizado." });
+  var props = PropertiesService.getScriptProperties();
+  var locked = JSON.parse(props.getProperty("lockedModules") || "[]");
+  var id = parseInt(body.moduleId, 10);
+  if (body.locked) {
+    if (locked.indexOf(id) === -1) locked.push(id);
+  } else {
+    locked = locked.filter(function(x) { return x !== id; });
+  }
+  props.setProperty("lockedModules", JSON.stringify(locked));
+  return json({ ok: true, locked: locked });
 }
 
 /* ============================ Helpers ============================ */
