@@ -348,7 +348,6 @@ button { font-family: var(--font-body); cursor: pointer; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
-  max-width: 760px;
 }
 .module-card {
   background: var(--card);
