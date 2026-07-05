@@ -242,7 +242,8 @@
       wrap.innerHTML =
         '<div class="nav-section-label">Administración</div>' +
         '<button class="nav-item" data-view="consultas">' + icon("inbox") + 'Consultas<span class="nav-badge" id="consultas-badge" hidden></span></button>' +
-        '<button class="nav-item" data-view="admin">' + icon("users") + 'Gestión de alumnos</button>';
+        '<button class="nav-item" data-view="admin">' + icon("users") + 'Gestión de alumnos</button>' +
+        '<button class="nav-item" data-view="admin-modulos">' + icon("lock") + 'Gestión de módulos</button>';
       mainNav.appendChild(wrap);
       refreshConsultasBadge();
     }
@@ -297,6 +298,10 @@
     if (view === "novedades") return renderNovedades();
     if (view === "admin") {
       if (session && session.rol === "admin") return renderAdmin();
+      return renderInicio();
+    }
+    if (view === "admin-modulos") {
+      if (session && session.rol === "admin") return renderAdminModulos();
       return renderInicio();
     }
     if (view === "consultas") {
@@ -648,8 +653,19 @@
         '<div class="admin-field"><label>&nbsp;</label><button type="submit" class="btn-primary" style="width:auto;">Agregar</button></div>' +
       '</form>' +
       '<div class="admin-msg" id="admin-msg"></div>' +
-      '<div class="users-table-wrap"><div id="users-table"><p style="color:var(--text-muted);">Cargando alumnos…</p></div></div>' +
-      '<h3 class="section-title-lg" style="margin-top:40px; margin-bottom:8px;">Acceso a módulos</h3>' +
+      '<div class="users-table-wrap"><div id="users-table"><p style="color:var(--text-muted);">Cargando alumnos…</p></div></div>';
+
+    document.getElementById("au-gen").onclick = function () {
+      document.getElementById("au-clave").value = genClave();
+    };
+    document.getElementById("add-user-form").addEventListener("submit", onAddUser);
+
+    loadUsers();
+  }
+
+  function renderAdminModulos() {
+    mainContent.innerHTML =
+      '<h2>Gestión de módulos</h2>' +
       '<p style="color:var(--text-muted); max-width:720px; margin-bottom:20px;">Controlá qué módulos pueden ver los alumnos. Los módulos bloqueados se muestran con candado y no se pueden abrir.</p>' +
       '<div class="module-locks-grid" id="module-locks-grid">' +
         MODULES.map(function(m) {
@@ -663,13 +679,6 @@
           '</div>';
         }).join('') +
       '</div>';
-
-    document.getElementById("au-gen").onclick = function () {
-      document.getElementById("au-clave").value = genClave();
-    };
-    document.getElementById("add-user-form").addEventListener("submit", onAddUser);
-
-    loadUsers();
 
     document.getElementById("module-locks-grid").addEventListener("click", function(e) {
       const btn = e.target.closest(".module-lock-btn");
