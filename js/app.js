@@ -456,7 +456,7 @@
       const esAdmin = session && session.rol === "admin";
       const locked = isModuleLocked(m.id) && !esAdmin;
       const imgHtml = m.image
-        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + '?v=4)"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>'
+        ? '<div class="module-card-img" data-bg="' + escapeAttr(m.image) + '?v=5"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>'
         : '<div class="module-card-img module-card-img--empty"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>';
       return '<button class="module-card' + (locked ? ' module-card--locked' : '') + '"' + (locked ? '' : ' data-view="modulo-' + m.id + '"') + '>' +
         imgHtml +
@@ -472,7 +472,26 @@
       '<p style="color:var(--text-muted); max-width:700px; margin-bottom:24px;">Entrá a cada módulo para ver el video, la documentación y dejar tus consultas.</p>' +
       '<div class="module-preview-grid">' + modulesHtml + '</div>';
 
+    initLazyBgImages();
     bindCardNav();
+  }
+
+  function initLazyBgImages() {
+    var els = document.querySelectorAll("[data-bg]");
+    if (!els.length) return;
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.style.backgroundImage = "url(" + el.dataset.bg + ")"; });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.backgroundImage = "url(" + entry.target.dataset.bg + ")";
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "200px" });
+    els.forEach(function (el) { observer.observe(el); });
   }
 
   function bindCardNav() {
