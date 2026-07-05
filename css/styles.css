@@ -362,7 +362,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 .module-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(12,36,98,0.14); }
 .module-card-img {
-  width: 100%; height: 160px;
+  width: 100%; height: 112px;
   background-size: cover; background-position: top center;
   position: relative;
   background-color: #1e3a5f;
@@ -375,16 +375,16 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 .module-card-img--empty { background: linear-gradient(135deg, var(--sky-pale) 0%, #dbeafe 100%); }
 .module-card-img .module-num {
-  position: absolute; top: 10px; left: 10px; z-index: 2;
+  position: absolute; top: 8px; left: 8px; z-index: 2;
   display: inline-flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 50%;
+  width: 24px; height: 24px; border-radius: 50%;
   background: rgba(255,255,255,0.92); color: var(--blue);
-  font-weight: 700; font-size: 0.85rem;
+  font-weight: 700; font-size: 0.75rem;
   box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
-.module-card-body { padding: 16px 18px; }
-.module-card h3 { font-size: 1rem; margin-bottom: 6px; }
-.module-card p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+.module-card-body { padding: 11px 13px; }
+.module-card h3 { font-size: 0.88rem; margin-bottom: 4px; }
+.module-card p { font-size: 0.78rem; color: var(--text-muted); margin: 0; }
 
 /* Módulo bloqueado */
 .module-card--locked { opacity: 0.45; filter: grayscale(0.5); cursor: not-allowed; pointer-events: none; }
