@@ -87,7 +87,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 .gate-brand-mark {
   width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--sky), var(--gold));
+  background: #1a3356 url('../assets/logo-la.svg') center/82% no-repeat;
 }
 .gate-brand span {
   font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--navy);
@@ -97,6 +97,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 .gate-card p.gate-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; }
 
 .gate-card input[type="password"],
+.gate-card input[type="text"],
 .gate-card input[type="email"] {
   width: 100%;
   padding: 13px 16px;
@@ -107,11 +108,32 @@ button { font-family: var(--font-body); cursor: pointer; }
   font-family: var(--font-body);
 }
 .gate-card input[type="password"]:focus,
+.gate-card input[type="text"]:focus,
 .gate-card input[type="email"]:focus {
   outline: none;
   border-color: var(--blue);
   box-shadow: 0 0 0 3px var(--sky-pale);
 }
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper input {
+  padding-right: 46px !important;
+}
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: calc(50% - 7px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.password-toggle:hover { color: var(--navy); }
 
 .btn-primary {
   background: var(--blue);
@@ -164,7 +186,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 .sidebar .brand-mark {
   width: 34px; height: 34px;
   border-radius: 9px;
-  background: linear-gradient(135deg, var(--sky), var(--gold));
+  background: #1a3356 url('../assets/logo-la.svg') center/82% no-repeat;
   flex-shrink: 0;
 }
 .sidebar .brand span {
