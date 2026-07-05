@@ -496,14 +496,11 @@
       docsHtml = '<div class="empty-note">Todavía no hay documentos cargados para este módulo.</div>';
     }
 
-    const bannerHtml = mod.image
-      ? '<div class="module-banner" style="background-image:url(' + escapeAttr(mod.image) + ')"><div class="module-banner-overlay"><div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div><h2>' + escapeHtml(mod.title) + '</h2></div></div>'
-      : '<div class="module-header"><div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div><h2>' + escapeHtml(mod.title) + '</h2></div>';
-
     mainContent.innerHTML =
       '<button class="breadcrumb-back" data-view="inicio">← Volver al inicio</button>' +
-      bannerHtml +
-      '<div class="module-header" style="padding-top:16px;">' +
+      '<div class="module-header">' +
+        '<div class="eyebrow">Módulo ' + mod.id + ' de ' + MODULES.length + '</div>' +
+        '<h2>' + escapeHtml(mod.title) + '</h2>' +
         '<p class="desc">' + escapeHtml(mod.description) + '</p>' +
       '</div>' +
       '<div class="video-wrap">' + videoHtml + '</div>' +
