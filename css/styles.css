@@ -39,7 +39,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  background: #e5e8f0;
   color: var(--text);
   font-family: var(--font-body);
   scroll-behavior: smooth;
@@ -581,7 +581,7 @@ button { font-family: var(--font-body); cursor: pointer; }
   max-width: 900px; margin: 0 auto;
 }
 .team-card {
-  background: var(--card); border: 1px solid var(--sky); border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column;
 }
 .team-card .team-name {
