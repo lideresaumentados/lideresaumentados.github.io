@@ -367,12 +367,6 @@ button { font-family: var(--font-body); cursor: pointer; }
   position: relative;
   background-color: #1e3a5f;
 }
-.module-card-img::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgba(10,20,50,0.45) 0%, rgba(10,20,50,0.1) 55%, transparent 100%);
-  z-index: 1;
-}
 .module-card-img--empty { background: linear-gradient(135deg, var(--sky-pale) 0%, #dbeafe 100%); }
 .module-card-img .module-num {
   position: absolute; top: 8px; left: 8px; z-index: 2;
