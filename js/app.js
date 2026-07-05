@@ -387,7 +387,7 @@
                 '<span class="recurso-nombre">' + escapeHtml(r.nombre) + '</span>' +
                 (r.desc ? '<span class="recurso-desc">' + escapeHtml(r.desc) + '</span>' : '') +
               '</span>' +
-              '<span class="recurso-action">Abrir →</span>' +
+              '<span class="recurso-action">Descargar →</span>' +
             '</a>';
           }).join("") +
         '</div>'
