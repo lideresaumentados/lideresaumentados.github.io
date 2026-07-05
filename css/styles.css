@@ -363,7 +363,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 .module-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(12,36,98,0.14); }
 .module-card-img {
   width: 100%; height: 160px;
-  background-size: cover; background-position: center 25%;
+  background-size: cover; background-position: center center;
   position: relative;
   background-color: var(--sky-pale);
 }
