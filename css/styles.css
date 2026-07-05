@@ -698,6 +698,7 @@ button { font-family: var(--font-body); cursor: pointer; }
   .topbar-mobile { display: flex; }
   .main { padding: 22px 18px 60px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .module-preview-grid { grid-template-columns: repeat(2, 1fr); }
 
   .hero-banner { padding: 28px 22px 22px; }
   .hero-title { font-size: 1.5rem; }
@@ -710,6 +711,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 
 @media (max-width: 640px) {
   .team-grid { grid-template-columns: 1fr; }
+  .module-preview-grid { grid-template-columns: 1fr; }
 
   /* Tarjeta de cronograma: de fila horizontal a apilada verticalmente */
   .crono-card { flex-direction: column; align-items: stretch; gap: 8px; }
