@@ -363,13 +363,19 @@ button { font-family: var(--font-body); cursor: pointer; }
 .module-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(12,36,98,0.14); }
 .module-card-img {
   width: 100%; height: 160px;
-  background-size: cover; background-position: top center;
+  background-size: cover; background-position: center center;
   position: relative;
-  background-color: var(--sky-pale);
+  background-color: #1e3a5f;
+}
+.module-card-img::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10,20,50,0.45) 0%, rgba(10,20,50,0.1) 55%, transparent 100%);
+  z-index: 1;
 }
 .module-card-img--empty { background: linear-gradient(135deg, var(--sky-pale) 0%, #dbeafe 100%); }
 .module-card-img .module-num {
-  position: absolute; top: 10px; left: 10px;
+  position: absolute; top: 10px; left: 10px; z-index: 2;
   display: inline-flex; align-items: center; justify-content: center;
   width: 30px; height: 30px; border-radius: 50%;
   background: rgba(255,255,255,0.92); color: var(--blue);
@@ -383,7 +389,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 /* Módulo bloqueado */
 .module-card--locked { opacity: 0.45; filter: grayscale(0.5); cursor: not-allowed; pointer-events: none; }
 .module-lock-badge {
-  position: absolute; top: 10px; right: 10px;
+  position: absolute; top: 10px; right: 10px; z-index: 2;
   background: rgba(0,0,0,0.55); color: #fff;
   border-radius: 50%; width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
