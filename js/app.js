@@ -467,7 +467,7 @@
       const esAdmin = session && session.rol === "admin";
       const locked = isModuleLocked(m.id) && !esAdmin;
       const imgHtml = m.image
-        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + ')"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>'
+        ? '<div class="module-card-img" style="background-image:url(' + escapeAttr(m.image) + '?v=3)"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>'
         : '<div class="module-card-img module-card-img--empty"><span class="module-num">' + m.id + '</span>' + (locked ? '<span class="module-lock-badge">' + icon("lock", "ico-sm") + '</span>' : '') + '</div>';
       return '<button class="module-card' + (locked ? ' module-card--locked' : '') + '"' + (locked ? '' : ' data-view="modulo-' + m.id + '"') + '>' +
         imgHtml +
