@@ -182,9 +182,8 @@
   function loadModuleLocks(cb) {
     if (!apiConfigured()) { if (cb) cb(); return; }
     apiPost({ action: "getModuleLocks" })
-      .then(function(res) { if (res && res.ok) moduleLocks = res.locked || []; })
-      .catch(function() {})
-      .finally(function() { if (cb) cb(); });
+      .then(function(res) { if (res && res.ok) moduleLocks = res.locked || []; if (cb) cb(); })
+      .catch(function() { if (cb) cb(); });
   }
 
   function isModuleLocked(id) {
@@ -689,8 +688,8 @@
             btn.innerHTML = locked ? icon("lock", "ico-sm") + " Bloqueado" : icon("unlock", "ico-sm") + " Habilitado";
           }
         })
-        .catch(function() {})
-        .finally(function() { btn.disabled = false; });
+        .catch(function() { btn.disabled = false; })
+        .then(function() { btn.disabled = false; });
     });
   }
 
