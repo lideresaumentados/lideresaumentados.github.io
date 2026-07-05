@@ -289,10 +289,7 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 .hero-logos-track {
   display: flex; align-items: center;
-}
-@keyframes hero-logo-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hero-logo-item {
   flex: 0 0 calc(100% / var(--hero-visible, 3));
