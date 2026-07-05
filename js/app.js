@@ -344,14 +344,12 @@
         '</div>';
     }).join("");
 
-    // Franja blanca con los logos: siempre se ven 3 a la vez, deslizando de a uno.
-    // Se arma una lista "extendida" (los logos + los primeros 3 repetidos al final)
-    // para poder deslizar sin cortes y, al llegar a la vuelta completa, reiniciar
-    // sin que se note (esos primeros repetidos son visualmente idénticos a los reales).
+    // Franja blanca con los logos: scroll infinito CSS puro (sin JS interval).
+    // Los logos se duplican para que la animación loop sea imperceptible.
     const heroLogos = SITE_CONFIG.heroLogos || [];
     const HERO_LOGOS_VISIBLE = 3;
     const extendedLogos = heroLogos.length > HERO_LOGOS_VISIBLE
-      ? heroLogos.concat(heroLogos.slice(0, HERO_LOGOS_VISIBLE))
+      ? heroLogos.concat(heroLogos)
       : heroLogos;
     const logoItemsHtml = extendedLogos.map(function (o) {
       const img = o.logo
@@ -406,38 +404,17 @@
     initHeroLogos(heroLogos.length, HERO_LOGOS_VISIBLE);
   }
 
-  // Franja de logos de la portada: siempre muestra 3, deslizando de a uno hacia
-  // la izquierda. Al completar la vuelta entera, se reinicia sin corte visible
-  // (gracias a los duplicados agregados al final de la lista).
+  // Franja de logos: scroll continuo con CSS animation (sin setInterval).
+  // El track tiene los logos duplicados; la animación mueve -50% (= 1 set completo)
+  // y hace loop infinito de forma imperceptible.
   function initHeroLogos(total, visible) {
     if (heroCarouselTimer) { clearInterval(heroCarouselTimer); heroCarouselTimer = null; }
     if (!total || total <= visible) return;
-
     const track = document.getElementById("hero-logos-track");
     if (!track) return;
-
-    const stepPercent = 100 / visible;
-    let step = 0;
-
-    // "animate" usa la transición lenta definida en el CSS (.hero-logos-track);
-    // acá solo la desactivamos para el reinicio instantáneo (sin corte visible).
-    function goTo(n, animate) {
-      track.style.transition = animate ? "" : "none";
-      track.style.transform = "translateX(-" + (n * stepPercent) + "%)";
-    }
-
     const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) return; // se queda mostrando los primeros 3, sin animar
-
-    heroCarouselTimer = setInterval(function () {
-      step++;
-      goTo(step, true);
-      if (step === total) {
-        // Llegamos a la vuelta completa (posición idéntica a la inicial): reiniciamos sin transición.
-        // El timeout espera un poco más que la transición del CSS (1.2s) para que termine de deslizar.
-        setTimeout(function () { goTo(0, false); step = 0; }, 1300);
-      }
-    }, 4200);
+    if (reducedMotion) return;
+    track.style.animation = "hero-logo-scroll " + (total * 2.2) + "s linear infinite";
   }
 
   // Recuadro "Últimas novedades" en el Inicio (muestra las 3 más recientes).
