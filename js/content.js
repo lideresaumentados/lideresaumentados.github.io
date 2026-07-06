@@ -25,7 +25,7 @@ const SITE_CONFIG = {
   programTagline: "Propuesta de capacitación para el desarrollo de nuevos liderazgos estratégicos en Santa Cruz",
 
   // Texto de bienvenida que aparece en la sección Inicio.
-  welcome: "Bienvenido/a a la plataforma del programa. Acá vas a encontrar el cronograma de encuentros, el material y los videos de cada módulo, las novedades y un espacio para dejar tus consultas. ¡Que lo aproveches!",
+  welcome: "¡Bienvenido/a a Líderes Aumentados! Este será tu espacio de aprendizaje durante todo el programa. Aquí encontrarás el cronograma de encuentros, el material y los videos de cada módulo, las novedades y un espacio para realizar consultas. Te invitamos a explorar cada contenido, participar activamente y aprovechar al máximo esta experiencia de formación. ¡Muchos éxitos!",
 
   // Archivos descargables que aparecen en Inicio (presentaciones, brochures, etc.).
   // - url: link directo de Google Drive en formato descarga (o cualquier URL pública).
@@ -67,15 +67,23 @@ const SITE_CONFIG = {
   team: [
     {
       name: "Christian Pollavini",
-      role: "Coach de Líderes · Equipos · Gestión Organizacional",
+      role: "Coach de Líderes",
       photo: "assets/christian.jpg",
-      desc: "Coach especializado en el desarrollo de líderes y equipos, y en gestión organizacional. Acompaña a mandos y directivos a fortalecer sus habilidades de conducción y a sostener equipos motivados en contextos de cambio."
+      desc: "Especializado en liderazgo y desarrollo organizacional. Ayuda a organizaciones y equipos a desarrollar líderes, fortalecer la comunicación y gestionar procesos de cambio. Combina coaching ejecutivo, inteligencia emocional y estrategias de desarrollo organizacional para impulsar equipos de alto desempeño y construir culturas de trabajo orientadas a resultados.",
+      links: [
+        { type: "whatsapp", label: "+54 9 2966 - 692544", url: "https://wa.me/542966692544" },
+        { type: "web", label: "www.christianpollavini.com", url: "https://www.christianpollavini.com" }
+      ]
     },
     {
       name: "Andriy Trofymenko",
-      role: "Ingeniero Industrial · Mejora Continua · Excelencia Operativa",
+      role: "Ingeniero Industrial",
       photo: "assets/andriy.jpg",
-      desc: "Ingeniero Industrial especializado en la gestión estratégica de proyectos y la excelencia operativa. Combina rigurosidad técnica y visión integral para transformar procesos, reducir costos y maximizar la productividad. Trabaja con metodologías Lean Manufacturing, Six Sigma, 5S y Kaizen, e integra tecnología e Industria 4.0 para impulsar una cultura de mejora continua."
+      desc: "Especializado en transformación organizacional mediante Inteligencia Artificial, Machine Learning y metodologías de mejora continua. Ayuda a organizaciones a optimizar procesos, automatizar tareas, analizar datos y desarrollar ventajas competitivas mediante tecnologías de Industria 5.0. Combina el rigor de la ingeniería con una visión estratégica para convertir la innovación tecnológica en resultados concretos para personas y equipos.",
+      links: [
+        { type: "whatsapp", label: "+54 9 11-33278023", url: "https://wa.me/541133278023" },
+        { type: "web", label: "andriytrofymenko.github.io", url: "https://andriytrofymenko.github.io/" }
+      ]
     }
   ],
   contact: "549 2966692544 · www.christianpollavini.com"

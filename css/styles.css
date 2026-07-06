@@ -623,11 +623,24 @@ button { font-family: var(--font-body); cursor: pointer; }
   font-weight: 800; font-size: 2.4rem; letter-spacing: 0.04em;
 }
 .team-card .team-role {
-  color: var(--blue); font-weight: 600; font-size: 0.82rem; margin: 12px 0 8px;
+  color: var(--navy); font-weight: 600; font-size: 0.88rem; margin: 12px 0 8px; text-align: center;
 }
 .team-card .team-desc {
   color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; margin: 0;
 }
+.team-links {
+  display: flex; flex-direction: column; gap: 7px; margin-top: 14px;
+}
+.team-link {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.84rem; font-weight: 500; text-decoration: none;
+  color: var(--text-muted); transition: color 0.15s;
+}
+.team-link:hover { color: var(--navy); }
+.team-link--whatsapp { color: #25a244; }
+.team-link--whatsapp:hover { color: #1a7a32; }
+.team-link--web { color: var(--blue); }
+.team-link--web:hover { color: var(--navy); }
 
 /* ---------- Botón borrar comentario ---------- */
 .comment-del, .row-del {
