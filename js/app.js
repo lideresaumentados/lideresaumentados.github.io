@@ -763,12 +763,12 @@
         '<td class="clave-cell">' + escapeHtml(u.clave) + '</td>' +
         '<td>' + rolBadge + '</td>' +
         '<td>' + habBadge + '</td>' +
+        '<td class="last-login-cell">' + escapeHtml(u.lastLogin || u.ultimoIngreso || '—') + '</td>' +
         '<td><div class="row-actions">' +
           '<button class="act-toggle" data-act="toggle" data-email="' + escapeAttr(u.email) + '" data-hab="' + (u.habilitado ? "1" : "0") + '">' + (u.habilitado ? "Deshabilitar" : "Habilitar") + '</button>' +
           '<button class="act-toggle" data-act="clave" data-email="' + escapeAttr(u.email) + '">Nueva clave</button>' +
           (esYo ? '' : '<button class="act-del" data-act="del" data-email="' + escapeAttr(u.email) + '">Eliminar</button>') +
         '</div></td>' +
-        '<td class="last-login-cell">' + escapeHtml(u.lastLogin || u.ultimoIngreso || '—') + '</td>' +
       '</tr>';
     }).join("");
 
