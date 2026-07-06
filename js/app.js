@@ -677,12 +677,21 @@
         '<div class="admin-field"><label>&nbsp;</label><button type="submit" class="btn-primary" style="width:auto;">Agregar</button></div>' +
       '</form>' +
       '<div class="admin-msg" id="admin-msg"></div>' +
+      '<div class="users-filter-row"><input type="search" id="users-filter" placeholder="Buscar por nombre o apellido…"></div>' +
       '<div class="users-table-wrap"><div id="users-table"><p style="color:var(--text-muted);">Cargando alumnos…</p></div></div>';
 
     document.getElementById("au-gen").onclick = function () {
       document.getElementById("au-clave").value = genClave();
     };
     document.getElementById("add-user-form").addEventListener("submit", onAddUser);
+    document.getElementById("users-filter").addEventListener("input", function () {
+      var q = this.value.trim().toLowerCase();
+      document.querySelectorAll("#users-table tbody tr").forEach(function (tr) {
+        var nombre = (tr.dataset.nombre || "").toLowerCase();
+        var apellido = (tr.dataset.apellido || "").toLowerCase();
+        tr.style.display = (!q || nombre.includes(q) || apellido.includes(q)) ? "" : "none";
+      });
+    });
 
     loadUsers();
   }
@@ -756,7 +765,7 @@
         ? '<span class="badge role admin">Admin</span>'
         : '<span class="badge role">Alumno</span>';
       const esYo = u.email === session.email;
-      return '<tr>' +
+      return '<tr data-nombre="' + escapeAttr(u.nombre || '') + '" data-apellido="' + escapeAttr(u.apellido || '') + '">' +
         '<td>' + escapeHtml(u.nombre || '—') + '</td>' +
         '<td>' + escapeHtml(u.apellido || '—') + '</td>' +
         '<td>' + escapeHtml(u.email) + (esYo ? ' <span style="color:var(--text-muted); font-size:0.75rem;">(vos)</span>' : '') + '</td>' +
