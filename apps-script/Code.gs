@@ -57,13 +57,14 @@ const SHEET_CRONOGRAMA = "Cronograma";
 // Nombres de columna aceptados para cada campo (se comparan sin distinguir
 // mayúsculas ni acentos). Podés sumar más alias si querés otros encabezados.
 const USER_FIELDS = {
-  email:      ["correo electronico", "correo", "email", "e-mail", "mail"],
-  clave:      ["clave", "contrasena", "password", "pass"],
-  nombre:     ["nombre"],
-  apellido:   ["apellido", "apellidos"],
-  rol:        ["rol", "role"],
-  habilitado: ["habilitado", "activo", "estado"],
-  fecha_alta: ["fecha de alta", "fecha_alta", "fecha alta", "fecha", "alta"]
+  email:          ["correo electronico", "correo", "email", "e-mail", "mail"],
+  clave:          ["clave", "contrasena", "password", "pass"],
+  nombre:         ["nombre"],
+  apellido:       ["apellido", "apellidos"],
+  rol:            ["rol", "role"],
+  habilitado:     ["habilitado", "activo", "estado"],
+  fecha_alta:     ["fecha de alta", "fecha_alta", "fecha alta", "fecha", "alta"],
+  ultimo_ingreso: ["ultimo ingreso", "ultimo_ingreso", "lastlogin", "last login", "ultima conexion"]
 };
 const COMMENT_FIELDS = {
   moduleId:  ["modulo", "moduleid", "modulo id", "id modulo", "id"],
@@ -134,6 +135,12 @@ function login(body) {
   if (!isHabilitado(u.habilitado)) return json({ ok: false, error: "Tu acceso todavía no fue habilitado por los organizadores." });
   if (String(u.clave) !== clave) return json({ ok: false, error: "Clave incorrecta. Volvé a intentar." });
 
+  try {
+    var sheet = getSheet(SHEET_USERS);
+    var hmap = headerMap(sheet);
+    setCell(sheet, found.rowNum, hmap, USER_FIELDS.ultimo_ingreso, new Date());
+  } catch (e) {}
+
   return json({
     ok: true,
     email: u.email,
@@ -155,10 +162,12 @@ function listUsers(body) {
     return {
       email: r.user.email,
       nombre: r.user.nombre,
+      apellido: r.user.apellido,
       clave: r.user.clave,
       rol: r.user.rol || "alumno",
       habilitado: isHabilitado(r.user.habilitado),
-      fecha_alta: r.user.fecha_alta
+      fecha_alta: r.user.fecha_alta,
+      lastLogin: r.user.lastLogin
     };
   });
   return json({ ok: true, users: users });
@@ -168,7 +177,8 @@ function addUser(body) {
   if (!verifyAdmin(body.adminEmail, body.token)) return json({ ok: false, error: "No autorizado." });
 
   var email = normEmail(body.email);
-  var nombre = String(body.nombre || "").trim(); // opcional
+  var nombre = String(body.nombre || "").trim();
+  var apellido = String(body.apellido || "").trim();
   var clave = String(body.clave || "").trim();
   var rol = (String(body.rol || "alumno").toLowerCase() === "admin") ? "Admin" : "Alumno";
 
@@ -184,6 +194,7 @@ function addUser(body) {
   setCell(sheet, rowNum, hmap, USER_FIELDS.email, email);
   setCell(sheet, rowNum, hmap, USER_FIELDS.clave, clave);
   if (nombre) setCell(sheet, rowNum, hmap, USER_FIELDS.nombre, nombre);
+  if (apellido) setCell(sheet, rowNum, hmap, USER_FIELDS.apellido, apellido);
   setCell(sheet, rowNum, hmap, USER_FIELDS.rol, rol);
   setCell(sheet, rowNum, hmap, USER_FIELDS.habilitado, "Sí");
   setCell(sheet, rowNum, hmap, USER_FIELDS.fecha_alta, new Date());
@@ -313,7 +324,7 @@ function addComment(body) {
   var u = verifySession(body.email, body.token);
   if (!u) return json({ ok: false, error: "Tu sesión expiró. Volvé a entrar para comentar." });
 
-  var name = (u.nombre && String(u.nombre).trim()) ? u.nombre : String(u.email).split("@")[0];
+  var name = (u.nombreCompleto && String(u.nombreCompleto).trim()) ? u.nombreCompleto : (u.nombre || String(u.email).split("@")[0]);
   var esOrganizador = (u.rol === "admin");
 
   var sheet = getSheet(SHEET_COMMENTS);
@@ -527,6 +538,7 @@ function readUsers() {
   var cRol = colOf(hmap, USER_FIELDS.rol);
   var cHab = colOf(hmap, USER_FIELDS.habilitado);
   var cFecha = colOf(hmap, USER_FIELDS.fecha_alta);
+  var cUltIngreso = colOf(hmap, USER_FIELDS.ultimo_ingreso);
 
   var out = [];
   for (var r = 1; r < data.length; r++) {
@@ -534,20 +546,23 @@ function readUsers() {
     var email = cEmail >= 0 ? row[cEmail] : "";
     if (!email) continue;
 
-    // Nombre visible = "Nombre" + "Apellido" juntos (lo que esté cargado).
     var nom = cNombre >= 0 ? String(row[cNombre] || "").trim() : "";
     var ape = cApellido >= 0 ? String(row[cApellido] || "").trim() : "";
     var nombreCompleto = (nom + " " + ape).trim();
+    var ultIngreso = cUltIngreso >= 0 ? row[cUltIngreso] : "";
 
     out.push({
       rowNum: r + 1,
       user: {
         email: normEmail(email),
         clave: cClave >= 0 ? row[cClave] : "",
-        nombre: nombreCompleto,
+        nombre: nom,
+        apellido: ape,
+        nombreCompleto: nombreCompleto,
         rol: String(cRol >= 0 ? row[cRol] : "alumno").toLowerCase(),
         habilitado: cHab >= 0 ? row[cHab] : "",
-        fecha_alta: cFecha >= 0 ? row[cFecha] : ""
+        fecha_alta: cFecha >= 0 ? row[cFecha] : "",
+        lastLogin: ultIngreso ? new Date(ultIngreso).toLocaleString("es-AR") : ""
       }
     });
   }

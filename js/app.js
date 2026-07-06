@@ -347,17 +347,19 @@
         ? '<img class="team-photo" src="' + escapeAttr(f.photo) + '" alt="' + escapeAttr(f.name) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">'
         : '';
       const fallback = '<div class="team-initials"' + (f.photo ? ' style="display:none"' : '') + '>' + escapeHtml(initials) + '</div>';
-      return '<div class="team-card">' +
-        '<div class="team-name">' + escapeHtml(f.name) + '</div>' +
-        photo + fallback +
-        (f.role ? '<div class="team-role">' + escapeHtml(f.role) + '</div>' : '') +
-        '<p class="team-desc">' + escapeHtml(f.desc || "") + '</p>' +
-        (f.links && f.links.length ? '<div class="team-links">' + f.links.map(function (l) {
+      var linksHtml = (f.links && f.links.length) ? '<div class="team-links">' + f.links.map(function (l) {
           var iconSvg = l.type === "whatsapp"
             ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
             : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
           return '<a class="team-link team-link--' + escapeAttr(l.type) + '" href="' + escapeAttr(l.url) + '" target="_blank" rel="noopener noreferrer">' + iconSvg + escapeHtml(l.label) + '</a>';
-        }).join("") + '</div>' : '') +
+        }).join("") + '</div>' : '';
+      return '<div class="team-card">' +
+        '<div class="team-name">' + escapeHtml(f.name) + '</div>' +
+        (f.role ? '<div class="team-role">' + escapeHtml(f.role) + '</div>' : '') +
+        photo + fallback +
+        '<hr class="team-divider">' +
+        '<p class="team-desc">' + escapeHtml(f.desc || "") + '</p>' +
+        linksHtml +
         '</div>';
     }).join("");
 
@@ -666,6 +668,8 @@
       '<h2>Gestión de alumnos</h2>' +
       '<p style="color:var(--text-muted); max-width:720px; margin-bottom:24px;">Agregá personas al programa y controlá quién tiene acceso. Cada alumno entra con su correo y la clave que le asignás acá.</p>' +
       '<form class="admin-toolbar" id="add-user-form">' +
+        '<div class="admin-field grow"><label>Nombre</label><input type="text" id="au-nombre" placeholder="María" required></div>' +
+        '<div class="admin-field grow"><label>Apellido</label><input type="text" id="au-apellido" placeholder="García" required></div>' +
         '<div class="admin-field grow"><label>Correo</label><input type="email" id="au-email" placeholder="maria@correo.com" required></div>' +
         '<div class="admin-field grow"><label>Clave</label><input type="text" id="au-clave" placeholder="clave" required></div>' +
         '<div class="admin-field"><label>&nbsp;</label><button type="button" class="btn-ghost" id="au-gen">Generar clave</button></div>' +
@@ -753,6 +757,8 @@
         : '<span class="badge role">Alumno</span>';
       const esYo = u.email === session.email;
       return '<tr>' +
+        '<td>' + escapeHtml(u.nombre || '—') + '</td>' +
+        '<td>' + escapeHtml(u.apellido || '—') + '</td>' +
         '<td>' + escapeHtml(u.email) + (esYo ? ' <span style="color:var(--text-muted); font-size:0.75rem;">(vos)</span>' : '') + '</td>' +
         '<td class="clave-cell">' + escapeHtml(u.clave) + '</td>' +
         '<td>' + rolBadge + '</td>' +
@@ -762,12 +768,13 @@
           '<button class="act-toggle" data-act="clave" data-email="' + escapeAttr(u.email) + '">Nueva clave</button>' +
           (esYo ? '' : '<button class="act-del" data-act="del" data-email="' + escapeAttr(u.email) + '">Eliminar</button>') +
         '</div></td>' +
+        '<td class="last-login-cell">' + escapeHtml(u.lastLogin || u.ultimoIngreso || '—') + '</td>' +
       '</tr>';
     }).join("");
 
     cont.innerHTML =
       '<table class="users-table"><thead><tr>' +
-        '<th>Correo</th><th>Clave</th><th>Rol</th><th>Estado</th><th>Acciones</th>' +
+        '<th>Nombre</th><th>Apellido</th><th>Correo</th><th>Clave</th><th>Rol</th><th>Estado</th><th>Último ingreso</th><th>Acciones</th>' +
       '</tr></thead><tbody>' + rows + '</tbody></table>';
 
     cont.querySelectorAll("button[data-act]").forEach(function (btn) {
@@ -777,16 +784,18 @@
 
   function onAddUser(e) {
     e.preventDefault();
+    const nombre = document.getElementById("au-nombre").value.trim();
+    const apellido = document.getElementById("au-apellido").value.trim();
     const email = document.getElementById("au-email").value.trim();
     const clave = document.getElementById("au-clave").value.trim();
     const rol = document.getElementById("au-rol").value;
-    if (!email || !clave) return;
+    if (!nombre || !apellido || !email || !clave) return;
 
     const btn = e.target.querySelector('button[type="submit"]');
     btn.disabled = true; btn.textContent = "Agregando…";
     adminMsg("");
 
-    apiPost({ action: "addUser", adminEmail: session.email, token: session.token, email: email, clave: clave, rol: rol })
+    apiPost({ action: "addUser", adminEmail: session.email, token: session.token, nombre: nombre, apellido: apellido, email: email, clave: clave, rol: rol })
       .then(function (res) {
         btn.disabled = false; btn.textContent = "Agregar";
         if (!res || !res.ok) { adminMsg((res && res.error) || "No se pudo agregar.", "err"); return; }

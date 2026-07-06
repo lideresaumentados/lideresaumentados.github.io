@@ -357,7 +357,9 @@ button { font-family: var(--font-body); cursor: pointer; }
   padding: 20px;
   box-shadow: var(--shadow);
   border-top: 3px solid var(--sky);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(12,36,98,0.14); }
 .stat-card .stat-number {
   font-family: var(--font-display);
   font-size: 2rem;
@@ -570,12 +572,13 @@ button { font-family: var(--font-body); cursor: pointer; }
 .admin-msg.ok { color: var(--success); }
 .admin-msg.err { color: #c62828; }
 
-.users-table-wrap { max-width: 1000px; overflow-x: auto; }
+.users-table-wrap { max-width: 100%; overflow-x: auto; }
 .users-table { width: 100%; border-collapse: collapse; background: var(--card);
   border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .users-table th, .users-table td {
-  text-align: left; padding: 11px 14px; font-size: 0.85rem; border-bottom: 1px solid var(--border);
+  text-align: left; padding: 9px 11px; font-size: 0.82rem; border-bottom: 1px solid var(--border); white-space: nowrap;
 }
+.users-table .last-login-cell { color: var(--text-muted); font-size: 0.78rem; }
 .users-table th { background: var(--sky-pale); color: var(--navy); font-weight: 700; font-size: 0.78rem;
   text-transform: uppercase; letter-spacing: 0.04em; }
 .users-table tr:last-child td { border-bottom: none; }
@@ -610,7 +613,10 @@ button { font-family: var(--font-body); cursor: pointer; }
 }
 .team-card .team-name {
   font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
-  color: var(--navy); margin-bottom: 12px; text-align: center;
+  color: var(--navy); margin-bottom: 3px; text-align: center;
+}
+.team-card .team-role {
+  color: var(--navy); font-weight: 600; font-size: 0.88rem; margin: 0 0 12px; text-align: center;
 }
 .team-card .team-photo {
   width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 22%;
@@ -619,11 +625,11 @@ button { font-family: var(--font-body); cursor: pointer; }
 .team-card .team-initials {
   width: 100%; aspect-ratio: 4 / 3; border-radius: 10px;
   background: linear-gradient(135deg, var(--sky), var(--blue)); color: #fff;
-  align-items: center; justify-content: center; font-family: var(--font-display);
+  display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
   font-weight: 800; font-size: 2.4rem; letter-spacing: 0.04em;
 }
-.team-card .team-role {
-  color: var(--navy); font-weight: 600; font-size: 0.88rem; margin: 12px 0 8px; text-align: center;
+.team-divider {
+  width: 100%; border: none; border-top: 1px solid var(--border); margin: 14px 0;
 }
 .team-card .team-desc {
   color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; margin: 0;
