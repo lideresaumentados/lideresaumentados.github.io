@@ -18,7 +18,7 @@ const SITE_CONFIG = {
   // El acceso ya NO usa una contraseña compartida: cada persona entra con su
   // propio correo y clave, definidos desde el panel de Administración
   // (o cargados a mano en la hoja "Alumnos" de la planilla).
-  sheetApiUrl: "https://script.google.com/macros/s/AKfycbzoMxxBGHWd8h-8cmFeeXf74L58wZmqA_quVBy6MHyOWB5SEANoN6qLvYXe1XULxWA-/exec",
+  sheetApiUrl: "https://script.google.com/macros/s/AKfycbzIU7UKU1hWpHw3SUhmKiOzMQY8goVWczp3lJh1lF1tH_ypPh2uf4ot01ECVdZ4qpms/exec",
 
   programTitle: "Líderes Aumentados",
   programSubtitle: "Liderazgo estratégico e Inteligencia Artificial aplicada a la gestión pública",
